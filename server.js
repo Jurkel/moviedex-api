@@ -5,12 +5,12 @@ const cors = require('cors')
 const helmet = require('helmet')
 const MOVIES = require('./movies-data.json')
 
-console.log(process.env.API_TOKEN)
-
 const app = express()
 
+const morganSetting = process.env.NODE.ENV == 'production' ? 'tiny' : 'common'
+
 app
-  .use(morgan('dev'))
+  .use(morgan(morganSetting))
   .use(cors())
   .use(helmet())
 
@@ -50,7 +50,7 @@ app.get('/movie', function handleGetMovie(req, res) {
   res.json(response)
 })
 
-const PORT = 9000
+const PORT = process.env.PORT || 9000
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`)
